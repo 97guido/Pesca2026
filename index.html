@@ -6,67 +6,67 @@
     <title>Gestione Premi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Disabilita il rimbalzo dello scorrimento su mobile per un feeling nativo */
-        html, body {
-            position: fixed;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-        .scrollable-content {
-            overflow-y: auto;
-            height: calc(100% - 64px); /* Sottrae l'altezza della bottom bar */
-            -webkit-overflow-scrolling: touch;
-        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col h-screen overflow-hidden">
+<body class="bg-gray-50 text-gray-900 min-h-dvh flex flex-col justify-between">
 
-    <!-- CONTENUTO PRINCIPALE -->
-    <main class="flex-1 scrollable-content p-4 pb-20">
+    <!-- CONTENUTO PRINCIPALE SCORREVOLE -->
+    <main class="flex-1 p-4 pb-24 overflow-y-auto w-full max-w-md mx-auto">
         
         <!-- MODALITÀ 1: RICERCA PER NUMERO -->
-        <div id="view-ricerca" class="h-full flex flex-col justify-between max-w-md mx-auto pt-4">
-
-            <!-- Box Risultato Grande e Centrale -->
-            <div class="flex-1 flex flex-col justify-center items-center my-6 px-2 text-center">
-                <div id="result-box" class="w-full p-8 bg-white rounded-3xl border border-gray-100 shadow-xl transition-all duration-300 transform scale-100 opacity-0 min-h-[220px] flex flex-col justify-center items-center">
-                    <div id="result-title" class="text-3xl font-extrabold text-blue-600 mb-2 leading-tight"></div>
-                    <div id="result-details" class="text-sm font-medium text-gray-400 mt-2 space-y-1"></div>
-                </div>
-            </div>
+        <div id="view-ricerca" class="space-y-4 pt-1">
             
+            <!-- Campo Input in Alto con Tasto "X" -->
             <div class="w-full">
-                <label for="search-input" class="block text-center text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                <label for="search-input" class="block text-center text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">
                     Inserisci Numero
                 </label>
-                <input 
-                    type="number" 
-                    id="search-input" 
-                    inputmode="numeric" 
-                    pattern="[0-9]*"
-                    placeholder="Es. 26" 
-                    class="w-full p-4 text-center text-2xl font-bold border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                >
+                <div class="relative flex items-center">
+                    <input 
+                        type="number" 
+                        id="search-input" 
+                        inputmode="numeric" 
+                        pattern="[0-9]*"
+                        placeholder="Es. 26" 
+                        class="w-full py-3 pl-10 pr-10 text-center text-2xl font-extrabold border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
+                    >
+                    <!-- Tasto 'X' per cancellare -->
+                    <button 
+                        id="clear-btn" 
+                        type="button" 
+                        class="hidden absolute right-3 p-1.5 text-gray-400 hover:text-gray-600 focus:outline-none bg-gray-100 rounded-full"
+                        aria-label="Cancella numero"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
-            <!-- Spaziatore inferiore invisibile per bilanciare visivamente il layout mobile -->
-            <div class="h-4"></div>
+            <!-- Box Risultato Posizionato Subito Sotto l'Input -->
+            <div class="w-full">
+                <div id="result-box" class="w-full p-5 bg-white rounded-2xl border border-gray-100 shadow-sm transition-all duration-300 transform scale-95 opacity-0 min-h-[140px] flex flex-col justify-center items-center text-center">
+                    <div id="result-title" class="text-2xl font-black text-blue-600 leading-tight"></div>
+                    <div id="result-details" class="text-xs font-medium text-gray-500 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
         </div>
 
         <!-- MODALITÀ 2: FILTRO SCATOLA -->
-        <div id="view-scatola" class="hidden max-w-md mx-auto pt-2">
-            <label for="scatola-select" class="block text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">
+        <div id="view-scatola" class="hidden space-y-3 pt-1">
+            <label for="scatola-select" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">
                 Seleziona Scatola
-              </label>
-            <div class="relative mb-6">
+            </label>
+            <div class="relative mb-4">
                 <select 
                     id="scatola-select" 
-                    class="w-full p-4 bg-white border border-gray-300 rounded-2xl shadow-sm text-lg font-medium text-gray-800 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full p-3 bg-white border border-gray-300 rounded-xl shadow-sm text-base font-semibold text-gray-800 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <!-- Opzioni popolate dinamicamente -->
                 </select>
@@ -76,1664 +76,67 @@
             </div>
 
             <!-- Lista Premi Filtrati -->
-            <div id="premi-list" class="space-y-3">
+            <div id="premi-list" class="space-y-2.5">
                 <!-- Voci popolate dinamicamente -->
             </div>
         </div>
 
     </main>
 
-    <!-- BARRA DI NAVIGAZIONE IN BASSO (BOTTOM NAVIGATION BAR) -->
-    <nav class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 flex items-center justify-around z-50 px-6 shadow-lg">
-        <!-- Bottone Cerca per Numero -->
+    <!-- BARRA DI NAVIGAZIONE IN BASSO -->
+    <nav class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 flex items-center justify-around z-50 px-6 shadow-md">
         <button id="nav-ricerca" class="flex flex-col items-center justify-center w-24 h-full text-blue-600 transition-colors">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
-            <span class="text-xs font-semibold tracking-wide">Cerca Numero</span>
+            <span class="text-[11px] font-bold tracking-wide">Cerca Numero</span>
         </button>
 
-        <!-- Bottone Filtro Scatola -->
         <button id="nav-scatola" class="flex flex-col items-center justify-center w-24 h-full text-gray-400 transition-colors">
-            <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
             </svg>
-            <span class="text-xs font-semibold tracking-wide">Scatole</span>
+            <span class="text-[11px] font-bold tracking-wide">Scatole</span>
         </button>
     </nav>
 
     <script>
-        // DATI JSON (Modifica questo array liberamente)
-        const datiPremi = [{
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0789a"
-                },
+        // DATI JSON
+        const datiPremi = [
+            {
+                "_id": { "$oid": "6aad1c2912017f792cd0789a" },
                 "premio": "Firme",
                 "quantita": 25,
+                "scatola": "Non assegnata",
                 "da": 1,
                 "a": 25
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0789b"
-                },
+            },
+            {
+                "_id": { "$oid": "6aad1c2912017f792cd0789b" },
                 "premio": "Puzzle Paesaggi",
                 "quantita": 2,
                 "scatola": "A vista",
                 "da": 26,
                 "a": 27
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0789c"
-                },
-                "premio": "Puzzle DC 1000",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 28,
-                "a": 28
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0789d"
-                },
-                "premio": "Puzzle Cattivissimo me",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 29,
-                "a": 29
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0789e"
-                },
-                "premio": "Skateboard rosa biruota",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 30,
-                "a": 30
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0789f"
-                },
-                "premio": "Multitasking gioco",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 31,
-                "a": 31
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a0"
-                },
-                "premio": "Il regalo bizzarro",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 32,
-                "a": 32
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a1"
-                },
-                "premio": "Aquilone",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 33,
-                "a": 33
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a2"
-                },
-                "premio": "In fila per 4",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 34,
-                "a": 34
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a3"
-                },
-                "premio": "Bambola con vestiti",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 35,
-                "a": 35
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a4"
-                },
-                "premio": "Shooting squad",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 36,
-                "a": 36
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a5"
-                },
-                "premio": "Tavole surf",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 37,
-                "a": 38
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a6"
-                },
-                "premio": "Marvel Cards TDG",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 39,
-                "a": 40
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a7"
-                },
-                "premio": "Tappeti bambini",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 41,
-                "a": 42
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a8"
-                },
-                "premio": "Collane porta cellulare",
-                "quantita": 10,
-                "scatola": "A vista",
-                "da": 43,
-                "a": 52
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078a9"
-                },
-                "premio": "Carte dragon ball",
-                "quantita": 6,
-                "scatola": "PremiAlti",
-                "da": 53,
-                "a": 58
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078aa"
-                },
-                "premio": "Soffiatore",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 59,
-                "a": 60
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ab"
-                },
-                "premio": "Ferma libri africa",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 61,
-                "a": 62
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ac"
-                },
-                "premio": "Tappetini Yoga",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 63,
-                "a": 64
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ad"
-                },
-                "premio": "Quadri sacri",
-                "quantita": 3,
-                "scatola": "A vista",
-                "da": 65,
-                "a": 67
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ae"
-                },
-                "premio": "Borsellino Paw Patrol + Tartarughe",
-                "quantita": 3,
-                "scatola": "Zaini",
-                "da": 68,
-                "a": 70
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078af"
-                },
-                "premio": "Zaini Gormiti",
-                "quantita": 3,
-                "scatola": "Zaini",
-                "da": 71,
-                "a": 73
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b0"
-                },
-                "premio": "Quadro con oro",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 74,
-                "a": 74
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b1"
-                },
-                "premio": "CoolHP",
-                "quantita": 1,
-                "scatola": "A vista",
-                "da": 75,
-                "a": 75
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b2"
-                },
-                "premio": "Scumbuster",
-                "quantita": 2,
-                "scatola": "A vista",
-                "da": 76,
-                "a": 77
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b3"
-                },
-                "premio": "Bicchieri vetro (estathe/mulino)",
-                "quantita": 52,
-                "scatola": "A vista",
-                "da": 78,
-                "a": 129
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b4"
-                },
-                "premio": "Spugne (unità, no confezioni) x2",
-                "quantita": 53,
-                "scatola": "A vista",
-                "da": 130,
-                "a": 182
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b5"
-                },
-                "premio": "Pianta grassa",
-                "quantita": 55,
-                "scatola": "A vista",
-                "da": 183,
-                "a": 237
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b6"
-                },
-                "premio": "Apribottiglie baffo",
-                "quantita": 50,
-                "scatola": "A vista+venerdì",
-                "da": 238,
-                "a": 287
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b7"
-                },
-                "premio": "Felpa",
-                "quantita": 2,
-                "scatola": "Camice",
-                "da": 288,
-                "a": 289
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b8"
-                },
-                "premio": "Camicie",
-                "quantita": 30,
-                "scatola": "Camicie",
-                "da": 290,
-                "a": 319
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078b9"
-                },
-                "premio": "Candele",
-                "quantita": 12,
-                "scatola": "Candele",
-                "da": 320,
-                "a": 331
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ba"
-                },
-                "premio": "Scatola cucina (timer, mestoli, imbuti, sotto pentola)",
-                "quantita": 12,
-                "scatola": "Cucina1",
-                "da": 332,
-                "a": 343
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078bb"
-                },
-                "premio": "Spremiagrumi",
-                "quantita": 24,
-                "scatola": "Cucina1",
-                "da": 344,
-                "a": 367
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078bc"
-                },
-                "premio": "Pellicola / Carta forno",
-                "quantita": 10,
-                "scatola": "Cucina2",
-                "da": 368,
-                "a": 377
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078bd"
-                },
-                "premio": "Ciotole",
-                "quantita": 32,
-                "scatola": "Cucina2",
-                "da": 378,
-                "a": 409
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078be"
-                },
-                "premio": "Sottobicchiere (+arte)",
-                "quantita": 34,
-                "scatola": "Cucina2",
-                "da": 410,
-                "a": 443
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078bf"
-                },
-                "premio": "Spatole",
-                "quantita": 68,
-                "scatola": "Cucina2",
-                "da": 444,
-                "a": 511
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c0"
-                },
-                "premio": "Guanti (in 2 scatole)",
-                "quantita": 90,
-                "scatola": "Guanti+venrdì",
-                "da": 512,
-                "a": 601
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c1"
-                },
-                "premio": "Ceramiche piccole x2",
-                "quantita": 33,
-                "scatola": "ScatolaAperta",
-                "da": 602,
-                "a": 634
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c2"
-                },
-                "premio": "Ceramiche grandi",
-                "quantita": 70,
-                "scatola": "ScatoleVarieCeramica",
-                "da": 635,
-                "a": 704
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c3"
-                },
-                "premio": "Canestro appendi biancheria",
-                "quantita": 3,
-                "scatola": "Utilità2",
-                "da": 705,
-                "a": 707
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c4"
-                },
-                "premio": "Lampada LED armadio",
-                "quantita": 19,
-                "scatola": "Venerdì",
-                "da": 708,
-                "a": 726
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c5"
-                },
-                "premio": "Pupazzi grandi",
-                "quantita": 8,
-                "scatola": "A vista+venerdì",
-                "da": 727,
-                "a": 734
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c6"
-                },
-                "premio": "Pupazzi portachiavi",
-                "quantita": 7,
-                "scatola": "Con pupazzi",
-                "da": 735,
-                "a": 741
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c7"
-                },
-                "premio": "Boomerang",
-                "quantita": 5,
-                "scatola": "Giochi1",
-                "da": 742,
-                "a": 746
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c8"
-                },
-                "premio": "Aerei polistirolo",
-                "quantita": 5,
-                "scatola": "Giochi1",
-                "da": 747,
-                "a": 751
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078c9"
-                },
-                "premio": "Spara dischi",
-                "quantita": 6,
-                "scatola": "Giochi1",
-                "da": 752,
-                "a": 757
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ca"
-                },
-                "premio": "Spirale vento",
-                "quantita": 8,
-                "scatola": "Giochi1",
-                "da": 758,
-                "a": 765
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078cb"
-                },
-                "premio": "Eliche volanti",
-                "quantita": 15,
-                "scatola": "Giochi1",
-                "da": 766,
-                "a": 780
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078cc"
-                },
-                "premio": "Giocattoli da paracadute",
-                "quantita": 20,
-                "scatola": "Giochi1",
-                "da": 781,
-                "a": 800
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078cd"
-                },
-                "premio": "Cubo di rubik",
-                "quantita": 22,
-                "scatola": "Giochi1",
-                "da": 801,
-                "a": 822
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ce"
-                },
-                "premio": "Farfalle volanti",
-                "quantita": 25,
-                "scatola": "Giochi1+venerdì",
-                "da": 823,
-                "a": 847
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078cf"
-                },
-                "premio": "Corde da saltare",
-                "quantita": 10,
-                "scatola": "Giochi3",
-                "da": 848,
-                "a": 857
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d0"
-                },
-                "premio": "Adesivi vari",
-                "quantita": 10,
-                "scatola": "Giochi3",
-                "da": 858,
-                "a": 867
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d1"
-                },
-                "premio": "Mini Metro Portachiave",
-                "quantita": 10,
-                "scatola": "Giochi3",
-                "da": 868,
-                "a": 877
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d2"
-                },
-                "premio": "Armoniche",
-                "quantita": 16,
-                "scatola": "Giochi3",
-                "da": 878,
-                "a": 893
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d3"
-                },
-                "premio": "Carte scala",
-                "quantita": 20,
-                "scatola": "Giochi3",
-                "da": 894,
-                "a": 913
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d4"
-                },
-                "premio": "Braccioli",
-                "quantita": 23,
-                "scatola": "Giochi3",
-                "da": 914,
-                "a": 936
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d5"
-                },
-                "premio": "Molla Magica",
-                "quantita": 24,
-                "scatola": "Giochi3",
-                "da": 937,
-                "a": 960
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d6"
-                },
-                "premio": "Portachiavi Cartone Animato x2",
-                "quantita": 50,
-                "scatola": "Giochi3",
-                "da": 961,
-                "a": 1010
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d7"
-                },
-                "premio": "Vuvuzele",
-                "quantita": 2,
-                "scatola": "Giochi3+Venerdì",
-                "da": 1011,
-                "a": 1012
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d8"
-                },
-                "premio": "Tavolette grafiche",
-                "quantita": 30,
-                "scatola": "Giochi3+Venerdì",
-                "da": 1013,
-                "a": 1042
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078d9"
-                },
-                "premio": "Blocchi da Costruzione",
-                "quantita": 31,
-                "scatola": "Giochi3+Venerdì",
-                "da": 1043,
-                "a": 1073
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078da"
-                },
-                "premio": "Pupazzo Toad",
-                "quantita": 2,
-                "scatola": "PupazzoSingolo",
-                "da": 1074,
-                "a": 1075
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078db"
-                },
-                "premio": "Bolle spiderman",
-                "quantita": 6,
-                "scatola": "Venerdì",
-                "da": 1076,
-                "a": 1081
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078dc"
-                },
-                "premio": "Girandole",
-                "quantita": 8,
-                "scatola": "Venerdì",
-                "da": 1082,
-                "a": 1089
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078dd"
-                },
-                "premio": "Collane (farfalle+cuore)",
-                "quantita": 8,
-                "scatola": "Venerdì",
-                "da": 1090,
-                "a": 1097
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078de"
-                },
-                "premio": "Palle belle",
-                "quantita": 10,
-                "scatola": "Venerdì",
-                "da": 1098,
-                "a": 1107
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078df"
-                },
-                "premio": "Anelli in resina",
-                "quantita": 15,
-                "scatola": "Venerdì",
-                "da": 1108,
-                "a": 1122
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e0"
-                },
-                "premio": "Mini sfere gatcha",
-                "quantita": 23,
-                "scatola": "Venerdì",
-                "da": 1123,
-                "a": 1145
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e1"
-                },
-                "premio": "Macchinine",
-                "quantita": 23,
-                "scatola": "Venerdì",
-                "da": 1146,
-                "a": 1168
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e2"
-                },
-                "premio": "Elicotteri fionda",
-                "quantita": 39,
-                "scatola": "Venerdì",
-                "da": 1169,
-                "a": 1207
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e3"
-                },
-                "premio": "Pupazzi piccoli",
-                "quantita": 61,
-                "scatola": "Venerdì",
-                "da": 1208,
-                "a": 1268
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e4"
-                },
-                "premio": "Mini shampoo/igene x2",
-                "quantita": 20,
-                "scatola": "A vista",
-                "da": 1269,
-                "a": 1288
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e5"
-                },
-                "premio": "Sapone mani / intimo",
-                "quantita": 50,
-                "scatola": "CassettaNera",
-                "da": 1289,
-                "a": 1338
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e6"
-                },
-                "premio": "Salviette grandi",
-                "quantita": 15,
-                "scatola": "Igene1",
-                "da": 1339,
-                "a": 1353
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e7"
-                },
-                "premio": "Pinzette",
-                "quantita": 24,
-                "scatola": "Igene1",
-                "da": 1354,
-                "a": 1377
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e8"
-                },
-                "premio": "Fibre abrasive",
-                "quantita": 10,
-                "scatola": "Igene2",
-                "da": 1378,
-                "a": 1387
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078e9"
-                },
-                "premio": "Sapoone pavimenti",
-                "quantita": 10,
-                "scatola": "Igene2",
-                "da": 1388,
-                "a": 1397
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ea"
-                },
-                "premio": "Tagliaunghie",
-                "quantita": 12,
-                "scatola": "Igene2",
-                "da": 1398,
-                "a": 1409
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078eb"
-                },
-                "premio": "ZANZA PENNA",
-                "quantita": 30,
-                "scatola": "Igene2",
-                "da": 1410,
-                "a": 1439
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ec"
-                },
-                "premio": "Bustina viaggio con saponi",
-                "quantita": 25,
-                "scatola": "Igene2+Venerdì",
-                "da": 1440,
-                "a": 1464
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ed"
-                },
-                "premio": "CAPUCCI SHOWER GEL",
-                "quantita": 40,
-                "scatola": "N°40",
-                "da": 1465,
-                "a": 1504
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ee"
-                },
-                "premio": "SPAZZOLINO BIOREPAIR",
-                "quantita": 152,
-                "scatola": "Spazzolini + Venerdì",
-                "da": 1505,
-                "a": 1656
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ef"
-                },
-                "premio": "Fazzoletti x2",
-                "quantita": 20,
-                "scatola": "Venerdì",
-                "da": 1657,
-                "a": 1676
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f0"
-                },
-                "premio": "SAPONE LIQUIDO SCOOBY-DOO",
-                "quantita": 25,
-                "scatola": "Venerdì",
-                "da": 1677,
-                "a": 1701
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f1"
-                },
-                "premio": "Segnalibri",
-                "quantita": 12,
-                "scatola": "CassettaNera",
-                "da": 1702,
-                "a": 1713
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f2"
-                },
-                "premio": "Libri",
-                "quantita": 15,
-                "scatola": "CassettaNera",
-                "da": 1714,
-                "a": 1728
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f3"
-                },
-                "premio": "Zainetti sacca",
-                "quantita": 3,
-                "scatola": "Venerdì",
-                "da": 1729,
-                "a": 1731
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f4"
-                },
-                "premio": "Cucitrici graffette",
-                "quantita": 16,
-                "scatola": "Venerdì",
-                "da": 1732,
-                "a": 1747
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f5"
-                },
-                "premio": "Quaderni",
-                "quantita": 35,
-                "scatola": "Venerdì",
-                "da": 1748,
-                "a": 1782
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f6"
-                },
-                "premio": "Astucci",
-                "quantita": 4,
-                "scatola": "Zaini",
-                "da": 1783,
-                "a": 1786
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f7"
-                },
-                "premio": "Zaini vari (spiderman, hello kitty, gormiti...)",
-                "quantita": 20,
-                "scatola": "Zaini",
-                "da": 1787,
-                "a": 1806
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f8"
-                },
-                "premio": "Ventole manuali",
-                "quantita": 15,
-                "scatola": "A vista",
-                "da": 1807,
-                "a": 1821
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078f9"
-                },
-                "premio": "Scatole plastica",
-                "quantita": 4,
-                "scatola": "Utilità1",
-                "da": 1822,
-                "a": 1825
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078fa"
-                },
-                "premio": "Portachiavi 3 cacciaviti",
-                "quantita": 12,
-                "scatola": "Utilità1",
-                "da": 1826,
-                "a": 1837
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078fb"
-                },
-                "premio": "Moschettoni x3",
-                "quantita": 16,
-                "scatola": "Utilità1",
-                "da": 1838,
-                "a": 1853
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078fc"
-                },
-                "premio": "Cappelli bianchi",
-                "quantita": 18,
-                "scatola": "Utilità1",
-                "da": 1854,
-                "a": 1871
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078fd"
-                },
-                "premio": "Contenitori Bianchi",
-                "quantita": 20,
-                "scatola": "Utilità1",
-                "da": 1872,
-                "a": 1891
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078fe"
-                },
-                "premio": "Infusori te",
-                "quantita": 21,
-                "scatola": "Utilità1",
-                "da": 1892,
-                "a": 1912
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd078ff"
-                },
-                "premio": "Penne tech",
-                "quantita": 35,
-                "scatola": "Utilità1",
-                "da": 1913,
-                "a": 1947
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07900"
-                },
-                "premio": "Bandane",
-                "quantita": 50,
-                "scatola": "Utilità1",
-                "da": 1948,
-                "a": 1997
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07901"
-                },
-                "premio": "Accendini",
-                "quantita": 50,
-                "scatola": "Utilità1+Venerdì",
-                "da": 1998,
-                "a": 2047
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07902"
-                },
-                "premio": "Lucchetti",
-                "quantita": 15,
-                "scatola": "Utilità2",
-                "da": 2048,
-                "a": 2062
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07903"
-                },
-                "premio": "Spazzole",
-                "quantita": 18,
-                "scatola": "Utilità2",
-                "da": 2063,
-                "a": 2080
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07904"
-                },
-                "premio": "Borsellini portamonete",
-                "quantita": 36,
-                "scatola": "Utilità2",
-                "da": 2081,
-                "a": 2116
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07905"
-                },
-                "premio": "Ventagli",
-                "quantita": 24,
-                "scatola": "Utilità2 + Venerdì",
-                "da": 2117,
-                "a": 2140
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07906"
-                },
-                "premio": "Mascherine aereo",
-                "quantita": 44,
-                "scatola": "Utilità2 + Venerdì",
-                "da": 2141,
-                "a": 2184
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07907"
-                },
-                "premio": "Polsini",
-                "quantita": 10,
-                "scatola": "Venerdì",
-                "da": 2185,
-                "a": 2194
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07908"
-                },
-                "premio": "Carte multifunzione",
-                "quantita": 10,
-                "scatola": "Venerdì",
-                "da": 2195,
-                "a": 2204
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07909"
-                },
-                "premio": "Elastici capelli",
-                "quantita": 40,
-                "scatola": "Venerdì",
-                "da": 2205,
-                "a": 2244
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0790a"
-                },
-                "premio": "Deodoranti auto",
-                "quantita": 50,
-                "scatola": "Venerdì",
-                "da": 2245,
-                "a": 2294
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0790b"
-                },
-                "premio": "Giochi misteriosi (macchinine, cubi, dischi con filo)",
-                "quantita": 65,
-                "scatola": "A vista",
-                "da": 2295,
-                "a": 2359
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0790c"
-                },
-                "premio": "Oggetto misterioso",
-                "quantita": 51,
-                "scatola": "A vista",
-                "da": 2360,
-                "a": 2410
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0790d"
-                },
-                "premio": "Piselli barattoli",
-                "quantita": 35,
-                "scatola": "A vista",
-                "da": 2411,
-                "a": 2445
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0790e"
-                },
-                "premio": "Succhi brick",
-                "quantita": 60,
-                "scatola": "A vista",
-                "da": 2446,
-                "a": 2505
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0790f"
-                },
-                "premio": "Te Jolly",
-                "quantita": 60,
-                "scatola": "A vista",
-                "da": 2506,
-                "a": 2565
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07910"
-                },
-                "premio": "Polpa pomodoro",
-                "quantita": 84,
-                "scatola": "A vista",
-                "da": 2566,
-                "a": 2649
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07911"
-                },
-                "premio": "Fagioli barattoli",
-                "quantita": 90,
-                "scatola": "A vista",
-                "da": 2650,
-                "a": 2739
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07912"
-                },
-                "premio": "Dolciumi",
-                "quantita": 100,
-                "scatola": "A vista",
-                "da": 2740,
-                "a": 2839
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07913"
-                },
-                "premio": "Pasta Barilla",
-                "quantita": 161,
-                "scatola": "Venerdì",
-                "da": 2840,
-                "a": 3000
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07914"
-                },
-                "premio": "Guanti",
-                "quantita": 10,
-                "scatola": "Guanti+venrdì",
-                "da": 3001,
-                "a": 3010
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07915"
-                },
-                "premio": "Apribottiglie baffo",
-                "quantita": 50,
-                "scatola": "A vista+venerdì",
-                "da": 3011,
-                "a": 3060
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07916"
-                },
-                "premio": "Lampada LED armadio",
-                "quantita": 25,
-                "scatola": "Venerdì",
-                "da": 3061,
-                "a": 3085
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07917"
-                },
-                "premio": "Panni microfibra",
-                "quantita": 40,
-                "scatola": "Venerdì",
-                "da": 3086,
-                "a": 3125
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07918"
-                },
-                "premio": "Maglie/canotte gialle",
-                "quantita": 25,
-                "scatola": "Venerdì",
-                "da": 3126,
-                "a": 3150
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07919"
-                },
-                "premio": "Svuotatasche",
-                "quantita": 20,
-                "scatola": "Venerdì",
-                "da": 3151,
-                "a": 3170
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0791a"
-                },
-                "premio": "Cavi ricarica",
-                "quantita": 20,
-                "scatola": "Venerdì",
-                "da": 3171,
-                "a": 3190
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0791b"
-                },
-                "premio": "Pupazzi grandi",
-                "quantita": 4,
-                "scatola": "A vista+venerdì",
-                "da": 3191,
-                "a": 3194
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0791c"
-                },
-                "premio": "Statuette One Piece / Stranger Things",
-                "quantita": 6,
-                "scatola": "Venerdì",
-                "da": 3195,
-                "a": 3200
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0791d"
-                },
-                "premio": "Puzzle kellogs",
-                "quantita": 3,
-                "scatola": "Venerdì",
-                "da": 3201,
-                "a": 3203
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0791e"
-                },
-                "premio": "Elicotteri fionda",
-                "quantita": 30,
-                "scatola": "Venerdì",
-                "da": 3204,
-                "a": 3233
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0791f"
-                },
-                "premio": "Mini sfere gatcha",
-                "quantita": 50,
-                "scatola": "Venerdì",
-                "da": 3234,
-                "a": 3283
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07920"
-                },
-                "premio": "Tavolette grafiche",
-                "quantita": 30,
-                "scatola": "Giochi3+Venerdì",
-                "da": 3284,
-                "a": 3313
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07921"
-                },
-                "premio": "Farfalle volanti",
-                "quantita": 25,
-                "scatola": "Giochi1+venerdì",
-                "da": 3314,
-                "a": 3338
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07922"
-                },
-                "premio": "Vuvuzele",
-                "quantita": 3,
-                "scatola": "Giochi3+Venerdì",
-                "da": 3339,
-                "a": 3341
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07923"
-                },
-                "premio": "Bolle spiderman",
-                "quantita": 6,
-                "scatola": "Venerdì",
-                "da": 3342,
-                "a": 3347
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07924"
-                },
-                "premio": "Palle belle",
-                "quantita": 5,
-                "scatola": "Venerdì",
-                "da": 3348,
-                "a": 3352
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07925"
-                },
-                "premio": "Pupazzi piccoli",
-                "quantita": 26,
-                "scatola": "Venerdì",
-                "da": 3353,
-                "a": 3378
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07926"
-                },
-                "premio": "Girandole",
-                "quantita": 7,
-                "scatola": "Venerdì",
-                "da": 3379,
-                "a": 3385
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07927"
-                },
-                "premio": "Collane (farfalle+cuore)",
-                "quantita": 8,
-                "scatola": "Venerdì",
-                "da": 3386,
-                "a": 3393
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07928"
-                },
-                "premio": "Anelli in resina",
-                "quantita": 15,
-                "scatola": "Venerdì",
-                "da": 3394,
-                "a": 3408
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07929"
-                },
-                "premio": "Macchinine",
-                "quantita": 25,
-                "scatola": "Venerdì",
-                "da": 3409,
-                "a": 3433
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0792a"
-                },
-                "premio": "Blocchi da Costruzione",
-                "quantita": 20,
-                "scatola": "Giochi3+Venerdì",
-                "da": 3434,
-                "a": 3453
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0792b"
-                },
-                "premio": "SPAZZOLINO BIOREPAIR",
-                "quantita": 100,
-                "scatola": "Spazzolini + Venerdì",
-                "da": 3454,
-                "a": 3553
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0792c"
-                },
-                "premio": "Fazzoletti x2",
-                "quantita": 20,
-                "scatola": "Venerdì",
-                "da": 3554,
-                "a": 3573
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0792d"
-                },
-                "premio": "SAPONE LIQUIDO SCOOBY-DOO",
-                "quantita": 25,
-                "scatola": "Venerdì",
-                "da": 3574,
-                "a": 3598
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0792e"
-                },
-                "premio": "Bustina viaggio con saponi",
-                "quantita": 25,
-                "scatola": "Igene2+Venerdì",
-                "da": 3599,
-                "a": 3623
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0792f"
-                },
-                "premio": "Tagliaunghie",
-                "quantita": 20,
-                "scatola": "Igene2",
-                "da": 3624,
-                "a": 3643
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07930"
-                },
-                "premio": "Quaderni",
-                "quantita": 35,
-                "scatola": "Venerdì",
-                "da": 3644,
-                "a": 3678
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07931"
-                },
-                "premio": "Cucitrici graffette",
-                "quantita": 16,
-                "scatola": "Venerdì",
-                "da": 3679,
-                "a": 3694
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07932"
-                },
-                "premio": "Zainetti sacca",
-                "quantita": 10,
-                "scatola": "Venerdì",
-                "da": 3695,
-                "a": 3704
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07933"
-                },
-                "premio": "Penne cancellabili a forma di animale",
-                "quantita": 8,
-                "scatola": "Venerdì",
-                "da": 3705,
-                "a": 3712
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07934"
-                },
-                "premio": "Polsini",
-                "quantita": 10,
-                "scatola": "Venerdì",
-                "da": 3713,
-                "a": 3722
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07935"
-                },
-                "premio": "Ventagli",
-                "quantita": 20,
-                "scatola": "Utilità2 + Venerdì",
-                "da": 3723,
-                "a": 3742
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07936"
-                },
-                "premio": "Mascherine aereo",
-                "quantita": 24,
-                "scatola": "Utilità2 + Venerdì",
-                "da": 3743,
-                "a": 3766
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07937"
-                },
-                "premio": "Elastici capelli",
-                "quantita": 40,
-                "scatola": "Venerdì",
-                "da": 3767,
-                "a": 3806
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07938"
-                },
-                "premio": "Deodoranti auto",
-                "quantita": 50,
-                "scatola": "Venerdì",
-                "da": 3807,
-                "a": 3856
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd07939"
-                },
-                "premio": "Accendini",
-                "quantita": 50,
-                "scatola": "Utilità1+Venerdì",
-                "da": 3857,
-                "a": 3906
-                },
-                {
-                "_id": {
-                    "$oid": "6aad1c2912017f792cd0793a"
-                },
-                "premio": "Pasta Barilla",
-                "quantita": 94,
-                "scatola": "Venerdì",
-                "da": 3907,
-                "a": 4000
-                }];
+            }
+        ];
 
-        // RIFERIMENTI ELEMENTI DOM
+        // RIFERIMENTI DOM
         const viewRicerca = document.getElementById('view-ricerca');
         const viewScatola = document.getElementById('view-scatola');
         const navRicerca = document.getElementById('nav-ricerca');
         const navScatola = document.getElementById('nav-scatola');
         const searchInput = document.getElementById('search-input');
+        const clearBtn = document.getElementById('clear-btn');
         const resultBox = document.getElementById('result-box');
         const resultTitle = document.getElementById('result-title');
         const resultDetails = document.getElementById('result-details');
         const scatolaSelect = document.getElementById('scatola-select');
         const premiList = document.getElementById('premi-list');
 
-        // GESTIONE CAMBIO MODALITÀ (BOTTOM BAR)
-        navRicerca.addEventListener('click', () => {
-            switchView('ricerca');
-        });
-
-        navScatola.addEventListener('click', () => {
-            switchView('scatola');
-        });
+        // GESTIONE CAMBIO MODALITÀ
+        navRicerca.addEventListener('click', () => switchView('ricerca'));
+        navScatola.addEventListener('click', () => switchView('scatola'));
 
         function switchView(view) {
             if (view === 'ricerca') {
@@ -1750,11 +153,15 @@
             }
         }
 
-        // MODALITÀ 1: LOGICA DI RICERCA IMMEDIATA ISTANTANEA
+        // GESTIONE RICERCA E TASTO CLEAR
         searchInput.addEventListener('input', () => {
             const valore = searchInput.value.trim();
             
-            if (valore === '') {
+            // Gestione visibilità tasto "X"
+            if (valore !== '') {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
                 nascondiRisultato();
                 return;
             }
@@ -1765,14 +172,14 @@
                 return;
             }
 
-            // Ricerca dell'elemento nell'intervallo inclusivo [da, a]
             const trovato = datiPremi.find(item => numero >= item.da && numero <= item.a);
 
             if (trovato) {
+                const scatolaTesto = trovato.scatola ? trovato.scatola : "Non specificata";
                 const dettagliHtml = `
-                    <div>Scatola: <span class="font-bold text-gray-700">${trovato.scatola}</span></div>
-                    <div>Quantità: <span class="font-bold text-gray-700">${trovato.quantita}</span></div>
-                    <div class="text-xs text-gray-400 pt-1">Intervallo valido: da ${trovato.da} a ${trovato.a}</div>
+                    <div class="text-sm">Scatola: <span class="font-bold text-gray-800">${scatolaTesto}</span></div>
+                    <div class="text-sm">Quantità: <span class="font-bold text-gray-800">${trovato.quantita}</span></div>
+                    <div class="text-[11px] text-gray-400 pt-1">Intervallo valido: ${trovato.da} - ${trovato.a}</div>
                 `;
                 mostraRisultato(trovato.premio, dettagliHtml, "text-blue-600", "bg-white");
             } else {
@@ -1780,10 +187,17 @@
             }
         });
 
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.add('hidden');
+            nascondiRisultato();
+            searchInput.focus();
+        });
+
         function mostraRisultato(titolo, dettagli, classeTesto, classeSfondo) {
-            resultBox.className = `w-full p-8 rounded-3xl border border-gray-100 shadow-xl transition-all duration-300 transform scale-100 opacity-100 min-h-[220px] flex flex-col justify-center items-center ${classeSfondo}`;
+            resultBox.className = `w-full p-5 rounded-2xl border border-gray-100 shadow-sm transition-all duration-300 transform scale-100 opacity-100 min-h-[140px] flex flex-col justify-center items-center ${classeSfondo}`;
             resultTitle.innerHTML = titolo;
-            resultTitle.className = `text-3xl font-extrabold mb-2 leading-tight ${classeTesto}`;
+            resultTitle.className = `text-2xl font-black leading-tight ${classeTesto}`;
             resultDetails.innerHTML = dettagli;
         }
 
@@ -1798,10 +212,9 @@
             }, 300);
         }
 
-        // MODALITÀ 2: LOGICA FILTRO PER SCATOLA
+        // LOGICA FILTRO PER SCATOLA
         function inizializzaFiltroScatola() {
-            // Estrae i nomi unici delle scatole presenti nel JSON
-            const scatoleUniche = [...new Set(datiPremi.map(item => item.scatola))].sort();
+            const scatoleUniche = [...new Set(datiPremi.map(item => item.scatola || "Non specificata"))].sort();
             
             scatolaSelect.innerHTML = '';
             
@@ -1812,7 +225,6 @@
                 scatolaSelect.appendChild(opzione);
             });
 
-            // Mostra i premi della prima scatola se disponibile
             if (scatoleUniche.length > 0) {
                 aggiornaListaPremi(scatoleUniche[0]);
             }
@@ -1824,36 +236,35 @@
 
         function aggiornaListaPremi(nomeScatola) {
             premiList.innerHTML = '';
-            const filtrati = datiPremi.filter(item => item.scatola === nomeScatola);
+            const filtrati = datiPremi.filter(item => (item.scatola || "Non specificata") === nomeScatola);
 
             if (filtrati.length === 0) {
-                premiList.innerHTML = '<div class="text-center text-gray-400 py-6">Nessun premio in questa scatola</div>';
+                premiList.innerHTML = '<div class="text-center text-gray-400 py-6 text-sm">Nessun premio in questa scatola</div>';
                 return;
             }
 
             filtrati.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-white p-4 rounded-2xl border border-gray-100 shadow-sm flex justify-between items-center";
+                card.className = "bg-white p-3.5 rounded-xl border border-gray-100 shadow-sm flex justify-between items-center";
                 card.innerHTML = `
                     <div class="flex-1 pr-2">
-                        <h4 class="font-bold text-gray-800 text-base leading-tight mb-1">${item.premio}</h4>
-                        <div class="text-xs font-semibold text-blue-500 uppercase tracking-wide">
-                            Intervallo: da ${item.da} a ${item.a}
+                        <h4 class="font-bold text-gray-800 text-sm leading-tight mb-1">${item.premio}</h4>
+                        <div class="text-[11px] font-semibold text-blue-500 uppercase tracking-wide">
+                            Da ${item.da} a ${item.a}
                         </div>
                     </div>
-                    <div class="bg-blue-50 text-blue-600 px-3 py-1.5 rounded-xl text-center min-w-[54px]">
-                        <span class="block text-xs font-medium uppercase tracking-tighter text-blue-400">Qtà</span>
-                        <span class="text-base font-extrabold leading-none">${item.quantita}</span>
+                    <div class="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-center min-w-[48px]">
+                        <span class="block text-[9px] font-bold uppercase tracking-tighter text-blue-400">Qtà</span>
+                        <span class="text-sm font-black leading-none">${item.quantita}</span>
                     </div>
                 `;
                 premiList.appendChild(card);
             });
         }
 
-        // AVVIO APPLICAZIONE
+        // AVVIO
         window.addEventListener('DOMContentLoaded', () => {
             inizializzaFiltroScatola();
-            // Forza il focus iniziale sul campo di ricerca in modalità mobile
             searchInput.focus();
         });
     </script>
