@@ -31,6 +31,15 @@
         
         <!-- MODALITÀ 1: RICERCA PER NUMERO -->
         <div id="view-ricerca" class="h-full flex flex-col justify-between max-w-md mx-auto pt-4">
+
+            <!-- Box Risultato Grande e Centrale -->
+            <div class="flex-1 flex flex-col justify-center items-center my-6 px-2 text-center">
+                <div id="result-box" class="w-full p-8 bg-white rounded-3xl border border-gray-100 shadow-xl transition-all duration-300 transform scale-100 opacity-0 min-h-[220px] flex flex-col justify-center items-center">
+                    <div id="result-title" class="text-3xl font-extrabold text-blue-600 mb-2 leading-tight"></div>
+                    <div id="result-details" class="text-sm font-medium text-gray-400 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
             <div class="w-full">
                 <label for="search-input" class="block text-center text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">
                     Inserisci Numero
@@ -43,14 +52,6 @@
                     placeholder="Es. 26" 
                     class="w-full p-4 text-center text-2xl font-bold border border-gray-300 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                 >
-            </div>
-
-            <!-- Box Risultato Grande e Centrale -->
-            <div class="flex-1 flex flex-col justify-center items-center my-6 px-2 text-center">
-                <div id="result-box" class="w-full p-8 bg-white rounded-3xl border border-gray-100 shadow-xl transition-all duration-300 transform scale-100 opacity-0 min-h-[220px] flex flex-col justify-center items-center">
-                    <div id="result-title" class="text-3xl font-extrabold text-blue-600 mb-2 leading-tight"></div>
-                    <div id="result-details" class="text-sm font-medium text-gray-400 mt-2 space-y-1"></div>
-                </div>
             </div>
             
             <!-- Spaziatore inferiore invisibile per bilanciare visivamente il layout mobile -->
